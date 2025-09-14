@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
-import { IUser } from "../../utils/common/interface";
-import { Gender, SYS_ROLE, USER_AGENT } from "../../utils/common/enum";
+import { IUser } from "../../../utils/common/interface";
+import { Gender, SYS_ROLE, USER_AGENT } from "../../../utils/common/enum";
 export const userSchema = new Schema<IUser>({
     lastName: { type: String, required: true, minlength: 3, maxlength: 30 },
     firstName: { type: String, required: true, minlength: 3, maxlength: 30 },

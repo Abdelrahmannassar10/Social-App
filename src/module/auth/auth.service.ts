@@ -1,21 +1,22 @@
-import { NextFunction, Request, Response } from "express";
+import { json, NextFunction, Request, Response } from "express";
 import { RegisterDTO } from "./auth.dto";
-import { ConflictException, NotFoundException } from "../../utils/error";
-import { UserRepository } from "../../DB/user/user.repository";
+import { BadRequestException, ConflictException, NotFoundException } from "../../utils";
+import { UserRepository } from "../../DB";
 import { AuthFactoryService } from "./factory";
-import { compareHash } from "../../utils/hash";
-
+import { compareHash } from "../../utils";
 class AuthService {
     private userRepository = new UserRepository()
     private authFactoryService = new AuthFactoryService();
     constructor() { };
     async register(req: Request, res: Response, next: NextFunction) {
         const registerDTO: RegisterDTO = req.body;
+        
+        
         const userExist = await this.userRepository.getOne({ email: registerDTO.email });
         if (userExist) {
             throw new ConflictException("User already exist");
         }
-        const user = this.authFactoryService.register(registerDTO);
+        const user = await this.authFactoryService.register(registerDTO);
         const createdUser = await this.userRepository.create(user);
         return res.status(201).json({ message: "User created successfully", success: true, data: createdUser })
     };

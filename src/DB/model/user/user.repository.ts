@@ -1,6 +1,6 @@
 import { ProjectionType, RootFilterQuery } from "mongoose";
-import { IUser } from "../../utils/common/interface";
-import { AbstractRepository } from "../abstract.repository";
+import { IUser } from "../../../utils/common/interface";
+import { AbstractRepository } from "../../abstract.repository";
 import { User } from "./user.model";
 
 export class UserRepository extends AbstractRepository<IUser> {
