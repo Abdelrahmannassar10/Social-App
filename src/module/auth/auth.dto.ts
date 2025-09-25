@@ -8,3 +8,7 @@ export interface RegisterDTO {
     gender?: Gender;
     dob?: Date;
 };
+export interface VerifyAccountDTO {
+    email: string;
+    otp: string;
+}

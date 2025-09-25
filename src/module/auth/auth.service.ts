@@ -1,5 +1,5 @@
 import { json, NextFunction, Request, Response } from "express";
-import { RegisterDTO } from "./auth.dto";
+import { RegisterDTO, VerifyAccountDTO } from "./auth.dto";
 import { BadRequestException, ConflictException, NotFoundException } from "../../utils";
 import { UserRepository } from "../../DB";
 import { AuthFactoryService } from "./factory";
@@ -18,7 +18,7 @@ class AuthService {
         }
         const user = await this.authFactoryService.register(registerDTO);
         const createdUser = await this.userRepository.create(user);
-        return res.status(201).json({ message: "User created successfully", success: true, data: createdUser })
+        return res.status(201).json({ message: "User created successfully", success: true, data: { id: createdUser.id } })
     };
     async login(req: Request, res: Response, next: NextFunction) {
         const { email, password } = req.body;
@@ -35,21 +35,10 @@ class AuthService {
         }
         return res.status(200).json({ message: "Login successful", success: true })
     }
-    async verifyOTP(req: Request, res: Response, next: NextFunction) {
-        const { email, otp } = req.body;
-        const user = await this.userRepository.getOne({ email });
-        if (!user) {
-            throw new NotFoundException("User not found");
-        }
-        if (user.otp !== otp) {
-            throw new ConflictException("Invalid OTP");
-        }
-        if (user.otpExpiryAt! < new Date()) {
-            throw new ConflictException("OTP expired");
-        }
-        user.isVerified = true;
-        await this.userRepository.update(email ,user);
-        return res.status(200).json({ message: "OTP verified successfully", success: true });
+    async verifyAccount(req: Request, res: Response, next: NextFunction) {
+        const verifyAccountDTO: VerifyAccountDTO = req.body;
+        await this.userRepository.update({ email: verifyAccountDTO.email }, {isVerified:true,$unset:{otp:"",otpExpiryAt:""}});
+        return res.sendStatus(204);
     }
 }
 export default new AuthService();
