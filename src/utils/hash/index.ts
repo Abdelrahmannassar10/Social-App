@@ -1,7 +1,7 @@
-import bycrpt from "bcryptjs";
+import bcrypt from "bcryptjs";
 export const generateHash = async (plainText :string)=>{
-    return await bycrpt.hash(plainText,10);
+    return await bcrypt.hash(plainText,10);
 } ;
-export const   compareHash =async (plaintext: string, hash: string)=> {
-    return await bycrpt.compare(plaintext, hash);
+export const  compareHash =async (plaintext: string, hash: string)=> {
+    return await bcrypt.compare(plaintext, hash);
 }

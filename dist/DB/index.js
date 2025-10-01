@@ -17,3 +17,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./connection"), exports);
 __exportStar(require("./abstract.repository"), exports);
 __exportStar(require("./model/user/user.repository"), exports);
+__exportStar(require("./model/post/post.repository"), exports);
+__exportStar(require("./model/comment/comment.repository"), exports);

@@ -10,5 +10,9 @@ export interface RegisterDTO {
 };
 export interface VerifyAccountDTO {
     email: string;
-    otp: string;
+    otp: Number;
+}
+export interface LoginDTO{
+    email:string;
+    password :string;
 }

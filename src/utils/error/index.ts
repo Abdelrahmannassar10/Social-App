@@ -23,3 +23,8 @@ export class NotAuthorizedException extends AppError {
         super(message, 401,errorDetails);
     }
 }
+export class ForbiddenException extends AppError{
+constructor(message: string ,errorDetails?:Record<string,any>[]) {
+        super(message, 403,errorDetails);
+    }
+}

@@ -1,5 +1,10 @@
-import { Gender, SYS_ROLE, USER_AGENT } from "../enum";
-
+import { jwt } from "zod";
+import { Gender, REACTION, SYS_ROLE, USER_AGENT } from "../enum";
+import { ObjectId } from "mongoose";
+export interface IAttachment{
+    url:string;
+    id:string
+}
 export interface IUser {
     lastName: string;
     firstName: string;
@@ -7,7 +12,7 @@ export interface IUser {
     email: string;
     password: string;
     role: SYS_ROLE;
-    otp?: string;
+    otp?: Number;
     otpExpiryAt?: Date;
     isVerified: boolean;
     credentialUpdatedAt: Date;
@@ -15,4 +20,38 @@ export interface IUser {
     gender :Gender;
     dob?: Date;
     userAgent: USER_AGENT;
+    _id:ObjectId;
+}
+export interface IReaction{
+    reaction:REACTION,
+    userId:ObjectId
+}
+export interface IPost{
+    _id:ObjectId;
+    userId:ObjectId;
+    content:string;
+    attachments ?:IAttachment[];
+    reactions:IReaction[];
+
+}
+export interface IComment{
+    _id:ObjectId;
+    userId:ObjectId;
+    postId:ObjectId;
+    parentIds:ObjectId[];
+    content:string;
+    reactions:IReaction[]
+    attachment:IAttachment;
+    mention:ObjectId[];
+}
+declare module "jsonwebtoken"{
+interface JwtPayload{
+    _id:string;
+    role:string;
+}
+}
+declare module "express"{
+    interface Request{
+        user?:IUser;
+    }
 }

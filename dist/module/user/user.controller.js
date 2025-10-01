@@ -6,5 +6,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const user_service_1 = __importDefault(require("./user.service"));
 const router = (0, express_1.Router)();
-router.get("/id", user_service_1.default.getProfile);
+router.get("/:id", user_service_1.default.getProfile);
 exports.default = router;

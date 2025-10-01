@@ -2,7 +2,7 @@ import { Request,Response,NextFunction } from "express";
 import { UserRepository } from "../../DB";
 
 class userService {
-    private readonly userRepository = new UserRepository()
+    private  userRepository = new UserRepository()
     constructor(){
     }
     getProfile =async (req:Request ,res:Response,next:NextFunction)=>{

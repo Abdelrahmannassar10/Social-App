@@ -1,19 +1,19 @@
-import { config } from 'dotenv';
+import { config } from "dotenv";
 config();
 export const devConfig = {
-    DB_URI: process.env.DB_URI,
-    PORT: process.env.PORT,
-    API_SECRET: process.env.API_SECRET,
-    API_KEY: process.env.API_KEY,
-    CLOUD_NAME: process.env.CLOUD_NAME,
-    EMAIL_USER: process.env.EMAIL_USER,
-    EMAIL_PASS: process.env.EMAIL_PASS,
-    SECRET_KEY: process.env.SECRET_KEY,
-    ENCRYPTION_SECRET_KEY: process.env.ENCRYPTION_SECRET_KEY,
-    ENCRYPTION_ALGORITHM: process.env.ENCRYPTION_ALGORITHM,
-    ENCRYPTION_IV: process.env.ENCRYPTION_IV,
-    OTP_Body: (otp: string) => {
-        return `
+  DB_URI: process.env.DB_URI,
+  PORT: process.env.PORT,
+  API_SECRET: process.env.API_SECRET,
+  API_KEY: process.env.API_KEY,
+  CLOUD_NAME: process.env.CLOUD_NAME,
+  EMAIL_USER: process.env.EMAIL_USER,
+  EMAIL_PASS: process.env.EMAIL_PASS,
+  SECRET_KEY: process.env.SECRET_KEY,
+  ENCRYPTION_SECRET_KEY: process.env.ENCRYPTION_SECRET_KEY,
+  ENCRYPTION_ALGORITHM: process.env.ENCRYPTION_ALGORITHM,
+  ENCRYPTION_IV: process.env.ENCRYPTION_IV,
+  OTP_Body: (otp: string) => {
+    return `
 <!doctype html>
 <html lang="en">
 <head>
@@ -67,7 +67,7 @@ export const devConfig = {
             <td class="email-header">
               <div style="display:flex;align-items:center;justify-content:center;gap:12px">
                 <img src="https://via.placeholder.com/40" width="40" height="40" alt="logo" style="border-radius:8px">
-                <div class="brand">{{COMPANY}}</div>
+                <div class="brand"> Social App </div>
               </div>
             </td>
           </tr>
@@ -79,7 +79,7 @@ export const devConfig = {
               <p class="text">Use the code below to verify your email address. This code will expire in 10 minutes. If you didn't request this, you can safely ignore this email.</p>
 
               <div style="text-align:center;margin:18px 0">
-                <div class="otp-box">{${otp}}</div>
+                <div class="otp-box">${otp}</div>
               </div>
 
               <div style="text-align:center;margin:18px 0">
@@ -125,7 +125,7 @@ export const devConfig = {
     /* Safety: re-apply minimal inline styles if needed */
   </style>
 
-</body></html>`
-    },
-    
+</body></html>`;
+  },
+  JWT_SECRET: process.env.JWT_SECRET as string,
 };

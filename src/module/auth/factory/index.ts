@@ -7,9 +7,12 @@ import { User } from "../entity";
 export class AuthFactoryService {
    async register (registerDTO: RegisterDTO) {
         const user = new User();
+        const [firstName, lastName] = registerDTO.fullName.split(" ");
+        user.firstName=firstName;
+        user.lastName=lastName;
         user.fullName = registerDTO.fullName as string;
         user.email = registerDTO.email;
-        user.password = await generateHash(registerDTO.phoneNumber as string);
+        user.password = await generateHash(registerDTO.password as string);
         user.role = SYS_ROLE.USER;
         user.isVerified = false;
         user.credentialUpdatedAt = new Date();
@@ -17,7 +20,7 @@ export class AuthFactoryService {
         user.gender = registerDTO.gender as Gender;
         user.dob = registerDTO.dob as Date;
         user.userAgent =  USER_AGENT.local;
-        user.otp = generateOTP();
+        user.otp = Number(generateOTP());
         user.otpExpiryAt = generateOTPExpiry(10); 
 
         return user;

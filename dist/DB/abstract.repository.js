@@ -10,7 +10,8 @@ class AbstractRepository {
         const doc = new this.model(item);
         return await doc.save();
     }
-    exist() {
+    exist(filter, projection, options) {
+        return this.model.findOne(filter, projection, options);
     }
     getOne(filter, projection, options) {
         return this.model.findOne(filter, projection, options);
