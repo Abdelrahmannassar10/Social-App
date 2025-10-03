@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response,type Express } from 'express';
-import { authRouter,userRouter ,postRouter } from './module';
+import { authRouter,userRouter ,postRouter, commentRouter } from './module';
 import {connectDB} from './DB/';
 import { AppError } from './utils';
 export function bootstrap(app : Express,express :any) {
@@ -8,6 +8,7 @@ export function bootstrap(app : Express,express :any) {
    app.use("/auth", authRouter);
    app.use("/user",userRouter);
    app.use("/post",postRouter);
+   app.use("/comment",commentRouter)
    app.use("/{*dummy}",(req,res)=>{
       res.status(404).json({message:"Route Not Found" ,success:false});
    });

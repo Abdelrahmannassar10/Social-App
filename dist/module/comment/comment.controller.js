@@ -8,4 +8,7 @@ const middleware_1 = require("../../middleware/");
 const comment_service_1 = __importDefault(require("./comment.service"));
 const router = (0, express_1.Router)({ mergeParams: true });
 router.post("{/:id}", (0, middleware_1.isAuthenticated)(), comment_service_1.default.createComment);
+router.get("/:id", (0, middleware_1.isAuthenticated)(), comment_service_1.default.getSpecific);
+router.delete("/:id", (0, middleware_1.isAuthenticated)(), comment_service_1.default.deleteComment);
+router.patch("/:id", (0, middleware_1.isAuthenticated)(), comment_service_1.default.addReaction);
 exports.default = router;

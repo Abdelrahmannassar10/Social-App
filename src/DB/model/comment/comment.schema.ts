@@ -14,17 +14,33 @@ export const commentSchema = new Schema<IComment>(
       ref: "Post",
       required: true,
     },
-    parentIds: [
-      {
+    parentId:  {
         type: Schema.Types.ObjectId,
         ref: "Comment",
-        required: true,
       },
-    ],
     content:{
         type:String,
     },
     reactions:[reactionSchema]
   },
-  { timestamps: true }
+  { timestamps: true ,toJSON:{virtuals:true},toObject:{virtuals:true} }
 );
+commentSchema.virtual("replies",{
+  ref:"Comment",
+  localField:"_id",
+  foreignField:"parentId"
+}
+);
+commentSchema.pre("deleteOne",async function(next){
+  const filter =typeof this.getFilter == "function" ? this.getFilter() :{};
+  const replies =await this.model.find({parentId:filter._id});
+  // console.log(filter,filter._id);
+  // console.log(replies);
+  
+  if(replies.length){
+    for(const reply of replies){
+      await this.model.deleteOne({_id:reply._id})
+    }
+  }
+  next();
+});

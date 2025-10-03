@@ -5,6 +5,6 @@ import * as authValidation from "./auth.validation" ;
 import authService from "./auth.service";
 const router = Router();
 router.post("/register", isValid(authValidation.registerSchema),AuthService.register);
-router.post("/login",authService.login)
-router.post("/verify-account",AuthService.verifyAccount);
+router.post("/login",isValid(authValidation.loginSchema),authService.login)
+router.post("/verify-account",isValid(authValidation.verifyAccountSchema),AuthService.verifyAccount);
 export default router;

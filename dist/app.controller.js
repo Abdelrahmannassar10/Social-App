@@ -9,6 +9,7 @@ function bootstrap(app, express) {
     app.use("/auth", module_1.authRouter);
     app.use("/user", module_1.userRouter);
     app.use("/post", module_1.postRouter);
+    app.use("/comment", module_1.commentRouter);
     app.use("/{*dummy}", (req, res) => {
         res.status(404).json({ message: "Route Not Found", success: false });
     });

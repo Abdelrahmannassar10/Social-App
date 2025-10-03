@@ -1,6 +1,9 @@
 import { jwt } from "zod";
 import { Gender, REACTION, SYS_ROLE, USER_AGENT } from "../enum";
 import { ObjectId } from "mongoose";
+import { Document } from "mongoose";
+import { User } from "../../../module/auth/entity";
+import { Doc } from "zod/v4/core";
 export interface IAttachment{
     url:string;
     id:string
@@ -38,7 +41,7 @@ export interface IComment{
     _id:ObjectId;
     userId:ObjectId;
     postId:ObjectId;
-    parentIds:ObjectId[];
+    parentId:ObjectId;
     content:string;
     reactions:IReaction[]
     attachment:IAttachment;

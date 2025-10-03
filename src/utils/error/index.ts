@@ -18,7 +18,7 @@ export class NotFoundException extends AppError {
         super(message, 404,errorDetails);
     }
 }
-export class NotAuthorizedException extends AppError {
+export class UnAuthorizedException extends AppError {
     constructor(message: string ,errorDetails?:Record<string,any>[]) {
         super(message, 401,errorDetails);
     }

@@ -1,6 +1,9 @@
 import { IAttachment } from "../../utils";
 
-export interface CommentDTO{
+export interface CreateCommentDTO{
     content:string;
     attachment?:IAttachment
-}
+};
+export interface AddReactionDTO{
+    reaction:string
+} 

@@ -1,13 +1,23 @@
 import { z } from "zod";
-import { Gender } from "../../utils";
+import { generalFields } from "../../middleware";
 
 export const registerSchema = z.object({
-  fullName: z.string().min(3).max(30).optional(),
-  email: z.string().email(),
-  password: z.string().min(6).max(20),
-  phoneNumber: z.string().optional(),
-  gender: z.enum(Gender).optional(),
-  dob: z.coerce.date().optional(),
+  fullName: generalFields.fullName.optional(),
+  email: generalFields.email.email(),
+  password: generalFields.password.min(6).max(20),
+  phoneNumber: generalFields.phoneNumber.optional(),
+  gender: generalFields.gender.optional(),
+  dob: generalFields.dob.optional(),
+});
+export const loginSchema =z.object({
+  email:generalFields.email,
+  password:generalFields.password
+});
+export const verifyAccountSchema =z.object({
+  otp:generalFields.otp
 });
 
 export type RegisterDTO = z.infer<typeof registerSchema>;
+export type LoginDTO = z.infer<typeof loginSchema>;
+export type VerifyAccountDTO = z.infer<typeof verifyAccountSchema>;
+

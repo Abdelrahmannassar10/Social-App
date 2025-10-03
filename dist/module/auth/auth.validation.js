@@ -1,13 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerSchema = void 0;
+exports.verifyAccountSchema = exports.loginSchema = exports.registerSchema = void 0;
 const zod_1 = require("zod");
-const utils_1 = require("../../utils");
+const middleware_1 = require("../../middleware");
 exports.registerSchema = zod_1.z.object({
-    fullName: zod_1.z.string().min(3).max(30).optional(),
-    email: zod_1.z.string().email(),
-    password: zod_1.z.string().min(6).max(20),
-    phoneNumber: zod_1.z.string().optional(),
-    gender: zod_1.z.enum(utils_1.Gender).optional(),
-    dob: zod_1.z.coerce.date().optional(),
+    fullName: middleware_1.generalFields.fullName.optional(),
+    email: middleware_1.generalFields.email.email(),
+    password: middleware_1.generalFields.password.min(6).max(20),
+    phoneNumber: middleware_1.generalFields.phoneNumber.optional(),
+    gender: middleware_1.generalFields.gender.optional(),
+    dob: middleware_1.generalFields.dob.optional(),
+});
+exports.loginSchema = zod_1.z.object({
+    email: middleware_1.generalFields.email,
+    password: middleware_1.generalFields.password
+});
+exports.verifyAccountSchema = zod_1.z.object({
+    otp: middleware_1.generalFields.otp
 });

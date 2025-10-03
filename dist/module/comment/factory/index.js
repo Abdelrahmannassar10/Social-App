@@ -8,7 +8,7 @@ class CommentFactoryService {
         newComment.userId = user._id;
         newComment.postId = post._id;
         newComment.content = commentDTO.content;
-        newComment.parentIds = comment ? [...comment.parentIds, comment._id] : [];
+        newComment.parentId = comment?._id;
         newComment.reactions = [];
         return newComment;
     }

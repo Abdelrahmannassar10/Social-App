@@ -4,7 +4,7 @@ exports.Comment = void 0;
 class Comment {
     userId;
     postId;
-    parentIds;
+    parentId;
     content;
     reactions;
     attachment;
