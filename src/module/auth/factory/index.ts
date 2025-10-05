@@ -1,7 +1,7 @@
-import { Gender, SYS_ROLE, USER_AGENT } from "../../../utils";
+import { Gender, IUser, SYS_ROLE, USER_AGENT } from "../../../utils";
 import { generateHash } from "../../../utils";
 import { generateOTP, generateOTPExpiry } from "../../../utils";
-import { RegisterDTO } from "../auth.dto";
+import { RegisterDTO, UpdateInfoDTO, UpdatePasswordDTO } from "../auth.dto";
 import { User } from "../entity";
 
 export class AuthFactoryService {
@@ -24,5 +24,13 @@ export class AuthFactoryService {
         user.otpExpiryAt = generateOTPExpiry(10); 
 
         return user;
+    };
+    update(updateInfoDTO:UpdateInfoDTO ,userExist:IUser){
+        const newUser = new User();
+        newUser.fullName = updateInfoDTO.fullName ?? userExist.fullName ;
+        newUser.gender = updateInfoDTO.gender as Gender ?? userExist.gender;
+        newUser.dob = updateInfoDTO.dob as Date ?? userExist.dob;
+        newUser.phoneNumber =updateInfoDTO.phoneNumber?? userExist.phoneNumber;
+        return newUser ;
     }
 }

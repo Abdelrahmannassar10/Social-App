@@ -45,4 +45,6 @@ const router = (0, express_1.Router)();
 router.post("/register", (0, middleware_1.isValid)(authValidation.registerSchema), auth_service_1.default.register);
 router.post("/login", (0, middleware_1.isValid)(authValidation.loginSchema), auth_service_2.default.login);
 router.post("/verify-account", (0, middleware_1.isValid)(authValidation.verifyAccountSchema), auth_service_1.default.verifyAccount);
+router.post("/update-password", (0, middleware_1.isAuthenticated)(), (0, middleware_1.isValid)(authValidation.updatePasswordSchema), auth_service_1.default.updatePassword);
+router.post("/update-info", (0, middleware_1.isAuthenticated)(), (0, middleware_1.isValid)(authValidation.updatePasswordSchema), auth_service_1.default.updateInfo);
 exports.default = router;

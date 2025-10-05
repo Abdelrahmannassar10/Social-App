@@ -38,11 +38,9 @@ class AuthService {
         if (!userExist) {
             throw new utils_1.ForbiddenException("invalid credentials");
         }
-        ;
         if (!(await (0, utils_2.compareHash)(loginDTO.password, userExist.password))) {
             throw new utils_1.ForbiddenException("invalid credentials");
         }
-        ;
         console.log(userExist.isVerified);
         if (userExist.isVerified == false) {
             throw new utils_1.ForbiddenException("user isn`t verified");
@@ -66,6 +64,66 @@ class AuthService {
         await this.userRepository.update({ email: verifyAccountDTO.email }, { isVerified: true, $unset: { otp: "", otpExpiryAt: "" } });
         console.log("here");
         return res.sendStatus(204);
+    };
+    updatePassword = async (req, res) => {
+        const UpdatePasswordDTO = req.body;
+        const userExist = await this.userRepository.getOne({
+            email: UpdatePasswordDTO.email,
+        });
+        if (!userExist) {
+            throw new utils_1.NotFoundException("user not founded");
+        }
+        if (userExist._id.toString() != req.user._id.toString()) {
+            throw new utils_1.UnAuthorizedException("you are not allowed to update the password");
+        }
+        if (await (0, utils_2.compareHash)(UpdatePasswordDTO.password, userExist.password)) {
+            throw new utils_1.BadRequestException("it is the same as the old password");
+        }
+        await this.userRepository.update({ email: UpdatePasswordDTO.email }, { password: await (0, utils_1.generateHash)(UpdatePasswordDTO.password) });
+        res
+            .status(200)
+            .json({ message: "password Updated successfully", success: true });
+    };
+    updateInfo = async (req, res) => {
+        const updateInfoDTO = req.body;
+        const userExist = await this.userRepository.getOne({
+            _id: req.user._id,
+        });
+        if (!userExist) {
+            throw new utils_1.NotFoundException("user not founded ");
+        }
+        ;
+        if (userExist._id.toString() != req.user._id.toString()) {
+            throw new utils_1.UnAuthorizedException("you are not allowed to update info");
+        }
+        if (updateInfoDTO.password) {
+            if (await (0, utils_2.compareHash)(updateInfoDTO.password, userExist.password)) {
+                throw new utils_1.BadRequestException("it is the same as the old password");
+            }
+        }
+        const userFactory = this.authFactoryService.update(updateInfoDTO, userExist);
+        const createdUser = await this.userRepository.update({ _id: req.user._id }, { $set: userFactory });
+        res.status(200).json({
+            message: "info Updated successfully",
+            success: true,
+            data: createdUser,
+        });
+    };
+    updateEmail = async (req, res) => {
+        const updateEmailDTO = req.body;
+        const userExist = await this.userRepository.getOne({
+            email: updateEmailDTO.email,
+        });
+        if (!userExist) {
+            throw new utils_1.NotFoundException("user not founded ");
+        }
+        ;
+        await this.userRepository.update({ _id: req.user._id }, { email: updateEmailDTO.newEmail });
+        res.status(200).json({
+            message: "email Updated successfully",
+            success: true,
+            newEmail: updateEmailDTO.newEmail
+        });
     };
 }
 exports.default = new AuthService();

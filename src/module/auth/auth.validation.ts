@@ -16,8 +16,13 @@ export const loginSchema =z.object({
 export const verifyAccountSchema =z.object({
   otp:generalFields.otp
 });
+export const updatePasswordSchema = z.object({
+  email:generalFields.email,
+  password:generalFields.password
+})
 
 export type RegisterDTO = z.infer<typeof registerSchema>;
 export type LoginDTO = z.infer<typeof loginSchema>;
 export type VerifyAccountDTO = z.infer<typeof verifyAccountSchema>;
+export type UpdatePasswordDTO = z.infer<typeof updatePasswordSchema>;
 

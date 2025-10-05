@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyAccountSchema = exports.loginSchema = exports.registerSchema = void 0;
+exports.updatePasswordSchema = exports.verifyAccountSchema = exports.loginSchema = exports.registerSchema = void 0;
 const zod_1 = require("zod");
 const middleware_1 = require("../../middleware");
 exports.registerSchema = zod_1.z.object({
@@ -17,4 +17,8 @@ exports.loginSchema = zod_1.z.object({
 });
 exports.verifyAccountSchema = zod_1.z.object({
     otp: middleware_1.generalFields.otp
+});
+exports.updatePasswordSchema = zod_1.z.object({
+    email: middleware_1.generalFields.email,
+    password: middleware_1.generalFields.password
 });

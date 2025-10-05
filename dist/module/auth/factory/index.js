@@ -25,5 +25,14 @@ class AuthFactoryService {
         user.otpExpiryAt = (0, utils_3.generateOTPExpiry)(10);
         return user;
     }
+    ;
+    update(updateInfoDTO, userExist) {
+        const newUser = new entity_1.User();
+        newUser.fullName = updateInfoDTO.fullName ?? userExist.fullName;
+        newUser.gender = updateInfoDTO.gender ?? userExist.gender;
+        newUser.dob = updateInfoDTO.dob ?? userExist.dob;
+        newUser.phoneNumber = updateInfoDTO.phoneNumber ?? userExist.phoneNumber;
+        return newUser;
+    }
 }
 exports.AuthFactoryService = AuthFactoryService;

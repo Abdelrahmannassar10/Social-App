@@ -15,4 +15,20 @@ export interface VerifyAccountDTO {
 export interface LoginDTO{
     email:string;
     password :string;
-}
+};
+export interface UpdatePasswordDTO{
+    email:string;
+    password:string;
+};
+export interface UpdateInfoDTO{
+    fullName?: string;
+    email: string;
+    password?: string;
+    phoneNumber?: string;
+    gender?: Gender;
+    dob?: Date;
+};
+export interface UpdateEmailDTO{
+    email:string;
+    newEmail:string
+};
