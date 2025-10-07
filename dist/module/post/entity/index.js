@@ -6,5 +6,6 @@ class Post {
     content;
     attachment;
     reactions;
+    mentions;
 }
 exports.Post = Post;

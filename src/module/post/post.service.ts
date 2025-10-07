@@ -1,20 +1,33 @@
 import { Request, Response } from "express";
-import { PostRepository } from "../../DB";
-import { CreatePostDTO } from "./post.dto";
+import { PostRepository, UserRepository } from "../../DB";
+import { AddReactionDTO, CreatePostDTO } from "./post.dto";
 import { PostFactoryService } from "./factory";
 import { NotFoundException, UnAuthorizedException } from "../../utils";
 import { addReactionProvider } from "../../utils/common/providers/react.provider";
+import { sendMail } from "../../utils/email";
+import { devConfig } from "../../config/env/dev.config";
 
 class PostService {
   private readonly postRepository = new PostRepository();
   private readonly postFactoryService = new PostFactoryService();
+  private readonly userRepository = new UserRepository();
   create = async (req: Request, res: Response) => {
     //create dto
     const createPostDTO: CreatePostDTO = req.body;
+    const user = await this.userRepository.getOne({ _id: req.user._id });
     //create factory , entity
     const post = this.postFactoryService.create(createPostDTO, req.user);
     //create in db
     const createdPost = await this.postRepository.create(post);
+    if (createPostDTO.mentions && createPostDTO.mentions.length) {
+      for (const email of createPostDTO.mentions) {
+        await sendMail({
+          to: email,
+          subject: "You were mentioned in a post",
+          html: devConfig.MENTIONS_BODY(user.fullName, createPostDTO.content),
+        });
+      }
+    }
     //res
     return res.status(200).json({
       message: "post created successfully .",
@@ -24,9 +37,9 @@ class PostService {
   };
   addReaction = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { reaction } = req.body;
-    const userId = req.user.id;
-    await addReactionProvider(this.postRepository, id, userId, reaction);
+    const addReactionDTO :AddReactionDTO= req.body;
+    const userId = req.user.toString();
+    await addReactionProvider(this.postRepository, id, userId, addReactionDTO.reaction);
     res.sendStatus(204);
   };
   getSpecific = async (req: Request, res: Response) => {

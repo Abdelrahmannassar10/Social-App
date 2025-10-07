@@ -12,6 +12,8 @@ import {
   ConflictException,
   ForbiddenException,
   generateHash,
+  generateOTP,
+  generateOTPExpiry,
   NotFoundException,
   UnAuthorizedException,
 } from "../../utils";
@@ -21,6 +23,8 @@ import { compareHash } from "../../utils";
 import { generateToken } from "../../utils/token";
 import { AuthProvider } from "./provider/auth.provider";
 import { email } from "zod";
+import { sendMail } from "../../utils/email";
+import { devConfig } from "../../config/env/dev.config";
 
 class AuthService {
   private userRepository = new UserRepository();
@@ -60,20 +64,35 @@ class AuthService {
     }
     if (!(await compareHash(loginDTO.password, userExist.password))) {
       throw new ForbiddenException("invalid credentials");
-    }
-    console.log(userExist.isVerified);
-
+    };
     if (userExist.isVerified == false) {
       throw new ForbiddenException("user isn`t verified");
-    }
-    const accessToken = generateToken({
+    };
+    console.log(userExist.isTwoStepEnable);
+    
+    if (!userExist.isTwoStepEnable) {
+      const accessToken = generateToken({
       payload: { _id: userExist._id, role: userExist.role },
       options: { expiresIn: "1d" },
     });
-    res.status(200).json({
+    return res.status(200).json({
       message: "login successfully",
       success: true,
       data: { accessToken },
+    });
+    };
+    const otp = generateOTP();
+    const otpExpiryAt = generateOTPExpiry(15);
+    //save otp and otpExpiryAt in db
+    await this.userRepository.update({_id:userExist._id},{otp,otpExpiryAt});
+    await sendMail({
+      to:userExist.email,
+      subject:"Login OTP",
+      html:devConfig.OTP_Body(otp.toString())
+    });
+    res.status(200).json({
+      message: "OTP sent to your email",
+      success: true,
     });
   };
   verifyAccount = async (req: Request, res: Response) => {
@@ -157,6 +176,37 @@ class AuthService {
       success: true,
       newEmail:updateEmailDTO.newEmail
     });
+  };
+  enableTwoSteps = async (req: Request, res: Response) => {
+    const otp =  generateOTP();
+    const otpExpiryAt =generateOTPExpiry(15);
+    //this step to get email to send otp
+    const user =await this.userRepository.getOne({_id:req.user._id});
+    await this.userRepository.update({_id:req.user._id},{otp:otp ,otpExpiryAt:otpExpiryAt});
+    await sendMail({
+      to:user.email,
+      subject:"Enable Two-Step Verification",
+      html:devConfig.OTP_Body(otp.toString())
+    });
+    res.status(200).json({message:"OTP sent to your email for enabling 2-step verification",success:true});
+  };
+  verifyTwoStep =async (req: Request, res: Response)=>{
+    const verifyAccountDTO: VerifyAccountDTO = req.body;
+    await AuthProvider.checkOTP(verifyAccountDTO);
+    await this.userRepository.update(
+      { email: verifyAccountDTO.email },
+      { isTwoStepEnable: true, $unset: { otp: "", otpExpiryAt: "" } }
+    );
+    return res.status(200).json({message:"2-step verification enabled successfully",success:true});
+  };
+  confirmTwoStep =async (req: Request, res: Response)=>{
+    const verifyAccountDTO: VerifyAccountDTO = req.body;
+    const user = await AuthProvider.checkOTP(verifyAccountDTO);
+    const accessToken = generateToken({
+      payload: { _id: user._id, role: user.role },
+      options: { expiresIn: "1d" },
+    });
+    return res.status(200).json({message:"2-step verification enabled successfully",success:true ,data:{accessToken}});
   };
 }
 export default new AuthService();

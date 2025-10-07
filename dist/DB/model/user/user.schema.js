@@ -48,6 +48,10 @@ exports.userSchema = new mongoose_1.Schema({
         enum: enum_1.USER_AGENT,
         default: enum_1.USER_AGENT.local,
     },
+    isTwoStepEnable: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
 // userSchema
 //   .virtual("fullName")

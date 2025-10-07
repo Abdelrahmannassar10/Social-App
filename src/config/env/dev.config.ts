@@ -127,5 +127,89 @@ export const devConfig = {
 
 </body></html>`;
   },
+  MENTIONS_BODY:(author:string,postContent:string,)=>{
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You were mentioned in a post</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: #f4f4f7;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      background-color: #007bff;
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+    }
+    .content {
+      padding: 25px;
+      color: #333333;
+      line-height: 1.6;
+    }
+    .content h2 {
+      color: #007bff;
+    }
+    .button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      background-color: #007bff;
+      color: #ffffff !important;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+    .footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 12px;
+      color: #777777;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔔 You Were Mentioned!</h1>
+    </div>
+    <div class="content">
+      <h2>Hello</h2>
+      <p>
+        You’ve been mentioned in a new post by <strong>${author}</strong>.
+      </p>
+      <blockquote style="border-left: 4px solid #007bff; padding-left: 10px; color: #555;">
+        "${postContent}"
+      </blockquote>
+      <p>
+        Click below to view the full post:
+      </p>
+      <a href="#" class="button">View Post</a>
+    </div>
+    <div class="footer">
+      <p>
+        This is an automated message from <strong>Social App</strong>.  
+        Please do not reply to this email.
+      </p>
+    </div>
+  </div>
+</body>
+</html>`
+
+  },
   JWT_SECRET: process.env.JWT_SECRET as string,
 };

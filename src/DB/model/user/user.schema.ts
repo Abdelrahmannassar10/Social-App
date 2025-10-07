@@ -46,6 +46,10 @@ export const userSchema = new Schema<IUser>(
       enum: USER_AGENT,
       default: USER_AGENT.local,
     },
+    isTwoStepEnable:{
+      type:Boolean,
+      default:false
+    }
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );

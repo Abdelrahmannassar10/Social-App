@@ -2,6 +2,7 @@ import { Schema } from "mongoose";
 import { IPost, IReaction, REACTION } from "../../../utils";
 import { reactionSchema } from "../common";
 import { Comment } from "../comment/comment.model";
+import { string } from "zod";
 
 
 export const postSchema = new Schema<IPost>(
@@ -22,6 +23,10 @@ export const postSchema = new Schema<IPost>(
       trim: true,
     },
     reactions: [reactionSchema],
+    mentions:[{
+      type:String,
+      trim:true
+    }]
   },
   { timestamps: true ,toJSON:{virtuals:true} ,toObject:{virtuals:true} }
 );

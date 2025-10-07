@@ -5,11 +5,8 @@ const DB_1 = require("../../../DB");
 const utils_1 = require("../../../utils");
 exports.AuthProvider = {
     async checkOTP(verifyAccountDTO) {
-        console.log("here");
         const userRepository = new DB_1.UserRepository();
-        console.log("here");
         const user = await userRepository.getOne({ email: verifyAccountDTO.email });
-        console.log("here");
         if (!user)
             throw new utils_1.NotFoundException("User not found");
         if (user.otp !== verifyAccountDTO.otp)

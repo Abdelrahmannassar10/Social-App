@@ -9,6 +9,7 @@ class PostFactoryService {
         newPost.content = createPostDTO.content;
         newPost.reactions = [];
         newPost.attachment = [];
+        newPost.mentions = createPostDTO.mentions ?? [];
         return newPost;
     }
     update() {

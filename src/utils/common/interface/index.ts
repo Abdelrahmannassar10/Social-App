@@ -1,9 +1,5 @@
-import { jwt } from "zod";
 import { Gender, REACTION, SYS_ROLE, USER_AGENT } from "../enum";
 import { ObjectId } from "mongoose";
-import { Document } from "mongoose";
-import { User } from "../../../module/auth/entity";
-import { Doc } from "zod/v4/core";
 export interface IAttachment{
     url:string;
     id:string
@@ -24,6 +20,7 @@ export interface IUser {
     dob?: Date;
     userAgent: USER_AGENT;
     _id:ObjectId;
+    isTwoStepEnable?:boolean;
 }
 export interface IReaction{
     reaction:REACTION,
@@ -35,7 +32,7 @@ export interface IPost{
     content:string;
     attachments ?:IAttachment[];
     reactions:IReaction[];
-
+    mentions:string[];
 }
 export interface IComment{
     _id:ObjectId;
@@ -55,6 +52,6 @@ interface JwtPayload{
 }
 declare module "express"{
     interface Request{
-        user?:IUser;
+        user?:IUser&Document;
     }
 }

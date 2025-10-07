@@ -5,5 +5,6 @@ export class Post{
     userId:ObjectId ;
     content:string ;
     attachment?:IAttachment[];
-    reactions:IReaction[]
+    reactions:IReaction[];
+    mentions:string[];
 }

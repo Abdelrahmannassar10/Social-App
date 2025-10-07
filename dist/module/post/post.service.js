@@ -4,16 +4,29 @@ const DB_1 = require("../../DB");
 const factory_1 = require("./factory");
 const utils_1 = require("../../utils");
 const react_provider_1 = require("../../utils/common/providers/react.provider");
+const email_1 = require("../../utils/email");
+const dev_config_1 = require("../../config/env/dev.config");
 class PostService {
     postRepository = new DB_1.PostRepository();
     postFactoryService = new factory_1.PostFactoryService();
+    userRepository = new DB_1.UserRepository();
     create = async (req, res) => {
         //create dto
         const createPostDTO = req.body;
+        const user = await this.userRepository.getOne({ _id: req.user._id });
         //create factory , entity
         const post = this.postFactoryService.create(createPostDTO, req.user);
         //create in db
         const createdPost = await this.postRepository.create(post);
+        if (createPostDTO.mentions && createPostDTO.mentions.length) {
+            for (const email of createPostDTO.mentions) {
+                await (0, email_1.sendMail)({
+                    to: email,
+                    subject: "You were mentioned in a post",
+                    html: dev_config_1.devConfig.MENTIONS_BODY(user.fullName, createPostDTO.content),
+                });
+            }
+        }
         //res
         return res.status(200).json({
             message: "post created successfully .",
@@ -23,9 +36,9 @@ class PostService {
     };
     addReaction = async (req, res) => {
         const { id } = req.params;
-        const { reaction } = req.body;
-        const userId = req.user.id;
-        await (0, react_provider_1.addReactionProvider)(this.postRepository, id, userId, reaction);
+        const addReactionDTO = req.body;
+        const userId = req.user.toString();
+        await (0, react_provider_1.addReactionProvider)(this.postRepository, id, userId, addReactionDTO.reaction);
         res.sendStatus(204);
     };
     getSpecific = async (req, res) => {
