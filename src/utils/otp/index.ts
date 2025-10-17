@@ -1,6 +1,6 @@
-export function generateOTP(): string {
+export function generateOTP() {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    return otp;
+    return Number(otp);
 }
 export function generateOTPExpiry(minutes: number): Date {
     const now = new Date();

@@ -8,9 +8,9 @@ const entity_1 = require("../entity");
 class AuthFactoryService {
     async register(registerDTO) {
         const user = new entity_1.User();
-        const [firstName, lastName] = registerDTO.fullName.split(" ");
-        user.firstName = firstName;
-        user.lastName = lastName;
+        // const [firstName, lastName] = registerDTO.fullName.split(" ");
+        // user.firstName=firstName;
+        // user.lastName=lastName;
         user.fullName = registerDTO.fullName;
         user.email = registerDTO.email;
         user.password = await (0, utils_2.generateHash)(registerDTO.password);
@@ -34,5 +34,6 @@ class AuthFactoryService {
         newUser.phoneNumber = updateInfoDTO.phoneNumber ?? userExist.phoneNumber;
         return newUser;
     }
+    ;
 }
 exports.AuthFactoryService = AuthFactoryService;

@@ -63,7 +63,7 @@ class CommentService {
     addReaction = async (req, res) => {
         const { id } = req.params;
         const AddReactionDTO = req.body;
-        const userId = req.user._id.toString();
+        const userId = req.user.id;
         await (0, react_provider_1.addReactionProvider)(this.commentRepository, id, userId, AddReactionDTO.reaction);
         res.sendStatus(204);
     };

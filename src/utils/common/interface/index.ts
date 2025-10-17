@@ -1,13 +1,13 @@
-import { Gender, REACTION, SYS_ROLE, USER_AGENT } from "../enum";
+import { Gender, REACTION, SYS_ROLE, TOKEN_TYPE, USER_AGENT } from "../enum";
 import { ObjectId } from "mongoose";
 export interface IAttachment{
     url:string;
     id:string
 }
 export interface IUser {
+    id:string
     lastName: string;
     firstName: string;
-    fullName?: string;
     email: string;
     password: string;
     role: SYS_ROLE;
@@ -21,6 +21,10 @@ export interface IUser {
     userAgent: USER_AGENT;
     _id:ObjectId;
     isTwoStepEnable?:boolean;
+    tempEmail:string;
+    oldEmailOTP:Number;
+    newEmailOTP:Number;
+    friends:ObjectId[]
 }
 export interface IReaction{
     reaction:REACTION,
@@ -33,6 +37,7 @@ export interface IPost{
     attachments ?:IAttachment[];
     reactions:IReaction[];
     mentions:string[];
+    deletedAt:Date;
 }
 export interface IComment{
     _id:ObjectId;
@@ -43,6 +48,7 @@ export interface IComment{
     reactions:IReaction[]
     attachment:IAttachment;
     mention:ObjectId[];
+    deletedAt:Date
 }
 declare module "jsonwebtoken"{
 interface JwtPayload{
@@ -52,6 +58,15 @@ interface JwtPayload{
 }
 declare module "express"{
     interface Request{
-        user?:IUser&Document;
+        user?:IUser;
     }
+}
+export interface IToken{
+    token:string;
+    userId:ObjectId;
+    type:TOKEN_TYPE
+}
+export interface IFriendRequest{
+    sender:ObjectId;
+    receiver:ObjectId;
 }

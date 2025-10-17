@@ -127,7 +127,7 @@ export const devConfig = {
 
 </body></html>`;
   },
-  MENTIONS_BODY:(author:string,postContent:string,)=>{
+  MENTIONS_BODY: (author: string, postContent: string) => {
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -208,8 +208,74 @@ export const devConfig = {
     </div>
   </div>
 </body>
-</html>`
+</html>`;
+  },
+  OLD_EMAIL_BODY: (code: Number) => {
+    return `<!doctype html>
+<html>
+  <body style="font-family:Arial,Helvetica,sans-serif;line-height:1.4;color:#111">
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="center">
+          <table width="600" cellpadding="24" cellspacing="0" style="border:1px solid #e6e6e6;border-radius:8px;">
+            <tr>
+              <td>
+                <h2 style="margin:0 0 12px 0;">Confirm it's you</h2>
+                <p style="margin:0 0 12px 0;">Hello,</p>
+                <p style="margin:0 0 12px 0;">
+                  We received a request to change the email for your <strong>Social App</strong> account.
+                  To confirm it was you, use the code below:
+                </p>
 
+                <div style="margin:16px 0;padding:16px;border-radius:6px;background:#f7f7f7;font-size:20px;letter-spacing:2px;text-align:center;">
+                  <strong>${code}</strong>
+                </div>
+
+                <p style="margin:0 0 12px 0;">This code expires in <strong>15 minutes</strong>.</p>
+
+                <p style="margin:18px 0 0 0;">— The Social App Team</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`;
+  },
+  NEW_EMAIL_BODY: (code:Number) => {
+    return `<!doctype html>
+<html>
+  <body style="font-family:Arial,Helvetica,sans-serif;line-height:1.4;color:#111">
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="center">
+          <table width="600" cellpadding="24" cellspacing="0" style="border:1px solid #e6e6e6;border-radius:8px;">
+            <tr>
+              <td>
+                <h2 style="margin:0 0 12px 0;">Confirm your new email</h2>
+                <p style="margin:0 0 12px 0;">Hello,</p>
+                <p style="margin:0 0 12px 0;">
+                  To confirm that this address belongs to you and to complete the change for your <strong>Social App</strong> account,
+                  either click the link below or enter the verification code shown.
+                </p>
+
+                <div style="margin:16px 0;padding:16px;border-radius:6px;background:#f7f7f7;font-size:20px;letter-spacing:2px;text-align:center;">
+                  <strong>${code}</strong>
+                </div>
+
+                <p style="margin:0 0 12px 0;">This code/link expires in <strong>15 minutes</strong>.</p>
+
+                <p style="margin:18px 0 0 0;">— The Social App Team</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+`
   },
   JWT_SECRET: process.env.JWT_SECRET as string,
 };

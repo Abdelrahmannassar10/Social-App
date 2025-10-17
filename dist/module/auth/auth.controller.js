@@ -46,9 +46,10 @@ router.post("/register", (0, middleware_1.isValid)(authValidation.registerSchema
 router.post("/login", (0, middleware_1.isValid)(authValidation.loginSchema), auth_service_2.default.login);
 router.post("/verify-account", (0, middleware_1.isValid)(authValidation.verifyAccountSchema), auth_service_1.default.verifyAccount);
 router.patch("/update-password", (0, middleware_1.isAuthenticated)(), (0, middleware_1.isValid)(authValidation.updatePasswordSchema), auth_service_1.default.updatePassword);
-router.patch("/update-email", (0, middleware_1.isAuthenticated)(), (0, middleware_1.isValid)(authValidation.updateEmailSchema), auth_service_1.default.updatePassword);
+router.patch("/update-email", (0, middleware_1.isAuthenticated)(), (0, middleware_1.isValid)(authValidation.updateEmailSchema), auth_service_1.default.updateEmail);
 router.patch("/update-info", (0, middleware_1.isAuthenticated)(), (0, middleware_1.isValid)(authValidation.updateInfoSchema), auth_service_1.default.updateInfo);
 router.post("/confirmTwoStep", (0, middleware_1.isValid)(authValidation.verifyAccountSchema), auth_service_1.default.confirmTwoStep);
 router.post("/verifyTwoStep", (0, middleware_1.isValid)(authValidation.verifyAccountSchema), auth_service_1.default.verifyTwoStep);
 router.patch("/enableTwoSteps", (0, middleware_1.isAuthenticated)(), auth_service_1.default.enableTwoSteps);
+router.post("/replace", (0, middleware_1.isAuthenticated)(), auth_service_1.default.replaceEmail);
 exports.default = router;

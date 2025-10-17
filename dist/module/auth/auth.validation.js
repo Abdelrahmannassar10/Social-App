@@ -32,6 +32,5 @@ exports.updateInfoSchema = zod_1.z.object({
     dob: middleware_1.generalFields.dob.optional(),
 });
 exports.updateEmailSchema = zod_1.z.object({
-    email: middleware_1.generalFields.email,
     newEmail: middleware_1.generalFields.email,
 });

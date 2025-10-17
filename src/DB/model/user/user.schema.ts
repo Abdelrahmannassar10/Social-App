@@ -5,11 +5,11 @@ import { sendMail } from "../../../utils/email";
 import { devConfig } from "../../../config/env/dev.config";
 export const userSchema = new Schema<IUser>(
   {
-    fullName: {
+    firstName: {
       type: String,
-      required: true,
-      minlength: 3,
-      maxlength: 30,
+    },
+    lastName: {
+      type: String,
     },
     email: {
       type: String,
@@ -46,23 +46,34 @@ export const userSchema = new Schema<IUser>(
       enum: USER_AGENT,
       default: USER_AGENT.local,
     },
-    isTwoStepEnable:{
-      type:Boolean,
-      default:false
-    }
+    isTwoStepEnable: {
+      type: Boolean,
+      default: false,
+    },
+    tempEmail: {
+      type: String,
+    },
+    oldEmailOTP: {
+      type: String,
+    },
+    newEmailOTP: {
+      type: String,
+    },
+    friends:[{
+      type:Schema.Types.ObjectId,
+      ref:"User"
+    }]
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
-// userSchema
-//   .virtual("fullName")
-//   .get(function () {
-//     return this.firstName + " " + this.lastName;
-//   })
-// userSchema.virtual("fullName").set(function (value) {
-//     const { firstName, lastName } = value.split(" ");
-//     this.firstName = firstName as string;
-//     this.lastName = lastName as string;
-//   });
+userSchema.virtual("fullName").get(function () {
+  return this.firstName + " " + this.lastName;
+});
+userSchema.virtual("fullName").set(function (value) {
+  const { firstName, lastName } = value.split(" ");
+  this.firstName = firstName as string;
+  this.lastName = lastName as string;
+});
 userSchema.pre("save", async function (next) {
   if (this.userAgent !== USER_AGENT.google || this.isNew == true) {
     await sendMail({

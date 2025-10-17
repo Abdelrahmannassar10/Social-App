@@ -8,8 +8,8 @@ const isAuthenticated = () => {
     return async (req, res, next) => {
         const token = req.headers.authorization;
         const payload = (0, token_1.verifyToken)(token);
-        const userRepository = new DB_1.UserRepository;
-        const user = await userRepository.exist({ _id: payload._id });
+        const userRepository = new DB_1.UserRepository();
+        const user = await userRepository.exist({ _id: payload.id });
         if (!user) {
             throw new utils_1.NotFoundException("user not founded");
         }

@@ -7,9 +7,9 @@ import { User } from "../entity";
 export class AuthFactoryService {
    async register (registerDTO: RegisterDTO) {
         const user = new User();
-        const [firstName, lastName] = registerDTO.fullName.split(" ");
-        user.firstName=firstName;
-        user.lastName=lastName;
+        // const [firstName, lastName] = registerDTO.fullName.split(" ");
+        // user.firstName=firstName;
+        // user.lastName=lastName;
         user.fullName = registerDTO.fullName as string;
         user.email = registerDTO.email;
         user.password = await generateHash(registerDTO.password as string);
@@ -32,5 +32,5 @@ export class AuthFactoryService {
         newUser.dob = updateInfoDTO.dob as Date ?? userExist.dob;
         newUser.phoneNumber =updateInfoDTO.phoneNumber?? userExist.phoneNumber;
         return newUser ;
-    }
+    };
 }

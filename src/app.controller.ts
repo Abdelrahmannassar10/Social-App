@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response,type Express } from 'express';
 import { authRouter,userRouter ,postRouter, commentRouter } from './module';
 import {connectDB} from './DB/';
-import { AppError } from './utils';
+import { AppError, globalErrorHandler } from './utils';
 export function bootstrap(app : Express,express :any) {
     connectDB();
    app.use(express.json());
@@ -12,9 +12,5 @@ export function bootstrap(app : Express,express :any) {
    app.use("/{*dummy}",(req,res)=>{
       res.status(404).json({message:"Route Not Found" ,success:false});
    });
-   app.use((error : AppError ,req :Request ,res: Response ,next :NextFunction)=>{
-   //  console.log(error);
-    
-      res.status(error.statusCode||500).json({message:error.message ,success :false ,errorDetails :error.errorDetails});
-   });
+   app.use(globalErrorHandler);
  }

@@ -17,5 +17,8 @@ async update(filter: RootFilterQuery<T>, update:UpdateQuery<T>, options?: Mongoo
 }
 async delete(filter:RootFilterQuery<T>){
     return await this.model.deleteOne(filter);
+};
+async findOneAndDelete(filter: RootFilterQuery<T>){
+   return await this.model.findOneAndDelete(filter); 
 }
 }

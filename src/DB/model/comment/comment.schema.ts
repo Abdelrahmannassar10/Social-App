@@ -21,7 +21,11 @@ export const commentSchema = new Schema<IComment>(
     content:{
         type:String,
     },
-    reactions:[reactionSchema]
+    reactions:[reactionSchema],
+    deletedAt:{
+      type:Date,
+      default:undefined
+    }
   },
   { timestamps: true ,toJSON:{virtuals:true},toObject:{virtuals:true} }
 );

@@ -17,3 +17,7 @@ export enum REACTION{
     angry,
     love,
 }
+export enum TOKEN_TYPE{
+    access,
+    refreshToken
+}

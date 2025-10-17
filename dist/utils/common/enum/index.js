@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.REACTION = exports.USER_AGENT = exports.Gender = exports.SYS_ROLE = void 0;
+exports.TOKEN_TYPE = exports.REACTION = exports.USER_AGENT = exports.Gender = exports.SYS_ROLE = void 0;
 var SYS_ROLE;
 (function (SYS_ROLE) {
     SYS_ROLE[SYS_ROLE["ADMIN"] = 0] = "ADMIN";
@@ -26,3 +26,8 @@ var REACTION;
     REACTION[REACTION["angry"] = 2] = "angry";
     REACTION[REACTION["love"] = 3] = "love";
 })(REACTION || (exports.REACTION = REACTION = {}));
+var TOKEN_TYPE;
+(function (TOKEN_TYPE) {
+    TOKEN_TYPE[TOKEN_TYPE["access"] = 0] = "access";
+    TOKEN_TYPE[TOKEN_TYPE["refreshToken"] = 1] = "refreshToken";
+})(TOKEN_TYPE || (exports.TOKEN_TYPE = TOKEN_TYPE = {}));

@@ -34,7 +34,6 @@ export const updateInfoSchema = z.object({
 });
 
 export const updateEmailSchema = z.object({
-  email: generalFields.email,
   newEmail: generalFields.email, 
 });
 

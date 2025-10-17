@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { PostRepository, UserRepository } from "../../DB";
 import { AddReactionDTO, CreatePostDTO } from "./post.dto";
 import { PostFactoryService } from "./factory";
-import { NotFoundException, UnAuthorizedException } from "../../utils";
+import { BadRequestException, NotFoundException, UnAuthorizedException } from "../../utils";
 import { addReactionProvider } from "../../utils/common/providers/react.provider";
 import { sendMail } from "../../utils/email";
 import { devConfig } from "../../config/env/dev.config";
@@ -24,7 +24,7 @@ class PostService {
         await sendMail({
           to: email,
           subject: "You were mentioned in a post",
-          html: devConfig.MENTIONS_BODY(user.fullName, createPostDTO.content),
+          html: devConfig.MENTIONS_BODY(user.firstName, createPostDTO.content),
         });
       }
     }
@@ -37,15 +37,20 @@ class PostService {
   };
   addReaction = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const addReactionDTO :AddReactionDTO= req.body;
+    const addReactionDTO: AddReactionDTO = req.body;
     const userId = req.user.toString();
-    await addReactionProvider(this.postRepository, id, userId, addReactionDTO.reaction);
+    await addReactionProvider(
+      this.postRepository,
+      id,
+      userId,
+      addReactionDTO.reaction
+    );
     res.sendStatus(204);
   };
   getSpecific = async (req: Request, res: Response) => {
     const { id } = req.params;
     const post = await this.postRepository.getOne(
-      { _id: id },
+      { _id: id},
       {},
       {
         populate: [
@@ -57,6 +62,9 @@ class PostService {
     );
     if (!post) {
       throw new NotFoundException("post not founded");
+    }
+    if(!post.deletedAt){
+      throw new BadRequestException("post has been deleted")
     }
     res.status(200).json({ message: "done", success: true, data: { post } });
   };
@@ -75,6 +83,34 @@ class PostService {
     res
       .status(200)
       .json({ message: "post deleted successfully ", success: true });
+  };
+  freezePost = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const postExist = await this.postRepository.exist({ _id: id });
+    if (!postExist) {
+      throw new NotFoundException("post not founded");
+    }
+    if (postExist.userId.toString() != req.user._id.toString()) {
+      throw new UnAuthorizedException(
+        "you are not authorized to delete the post"
+      );
+    };
+    await this.postRepository.update({_id:id},{$set:{deletedAt:new Date()}});
+    res.status(200).json({message:"post has been soft deleted", success:true});
+  };
+  unfreezePost =async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const postExist = await this.postRepository.exist({ _id: id });
+    if (!postExist) {
+      throw new NotFoundException("post not founded");
+    }
+    if (postExist.userId.toString() != req.user._id.toString()) {
+      throw new UnAuthorizedException(
+        "you are not authorized to delete the post"
+      );
+    };
+    await this.postRepository.update({_id:id},{$set:{deletedAt:undefined}});
+    res.status(200).json({message:"post has been retrieved", success:true});
   };
 }
 export default new PostService();

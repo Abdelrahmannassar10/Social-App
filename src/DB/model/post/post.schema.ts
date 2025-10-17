@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { IPost, IReaction, REACTION } from "../../../utils";
+import { IPost } from "../../../utils";
 import { reactionSchema } from "../common";
 import { Comment } from "../comment/comment.model";
 import { string } from "zod";
@@ -14,19 +14,17 @@ export const postSchema = new Schema<IPost>(
     },
     content: {
       type: String,
-    //   required: function(){
-    //     if(this.attachments?.length){
-    //         return false
-    //     }
-    //     return true
-    //   },
       trim: true,
     },
     reactions: [reactionSchema],
     mentions:[{
       type:String,
       trim:true
-    }]
+    }],
+    deletedAt:{
+      type:Date,
+      default:undefined
+    }
   },
   { timestamps: true ,toJSON:{virtuals:true} ,toObject:{virtuals:true} }
 );

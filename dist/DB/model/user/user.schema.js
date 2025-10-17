@@ -6,11 +6,11 @@ const enum_1 = require("../../../utils/common/enum");
 const email_1 = require("../../../utils/email");
 const dev_config_1 = require("../../../config/env/dev.config");
 exports.userSchema = new mongoose_1.Schema({
-    fullName: {
+    firstName: {
         type: String,
-        required: true,
-        minlength: 3,
-        maxlength: 30,
+    },
+    lastName: {
+        type: String,
     },
     email: {
         type: String,
@@ -50,19 +50,30 @@ exports.userSchema = new mongoose_1.Schema({
     },
     isTwoStepEnable: {
         type: Boolean,
-        default: false
-    }
+        default: false,
+    },
+    tempEmail: {
+        type: String,
+    },
+    oldEmailOTP: {
+        type: String,
+    },
+    newEmailOTP: {
+        type: String,
+    },
+    friends: [{
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: "User"
+        }]
 }, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
-// userSchema
-//   .virtual("fullName")
-//   .get(function () {
-//     return this.firstName + " " + this.lastName;
-//   })
-// userSchema.virtual("fullName").set(function (value) {
-//     const { firstName, lastName } = value.split(" ");
-//     this.firstName = firstName as string;
-//     this.lastName = lastName as string;
-//   });
+exports.userSchema.virtual("fullName").get(function () {
+    return this.firstName + " " + this.lastName;
+});
+exports.userSchema.virtual("fullName").set(function (value) {
+    const { firstName, lastName } = value.split(" ");
+    this.firstName = firstName;
+    this.lastName = lastName;
+});
 exports.userSchema.pre("save", async function (next) {
     if (this.userAgent !== enum_1.USER_AGENT.google || this.isNew == true) {
         await (0, email_1.sendMail)({

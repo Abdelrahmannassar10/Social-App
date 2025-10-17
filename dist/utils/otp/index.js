@@ -4,7 +4,7 @@ exports.generateOTP = generateOTP;
 exports.generateOTPExpiry = generateOTPExpiry;
 function generateOTP() {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    return otp;
+    return Number(otp);
 }
 function generateOTPExpiry(minutes) {
     const now = new Date();

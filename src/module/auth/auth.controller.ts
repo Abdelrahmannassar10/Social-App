@@ -8,9 +8,10 @@ router.post("/register", isValid(authValidation.registerSchema),AuthService.regi
 router.post("/login",isValid(authValidation.loginSchema),authService.login)
 router.post("/verify-account",isValid(authValidation.verifyAccountSchema),AuthService.verifyAccount);
 router.patch("/update-password",isAuthenticated(),isValid(authValidation.updatePasswordSchema),AuthService.updatePassword);
-router.patch("/update-email",isAuthenticated(),isValid(authValidation.updateEmailSchema),AuthService.updatePassword);
+router.patch("/update-email",isAuthenticated(),isValid(authValidation.updateEmailSchema),AuthService.updateEmail);
 router.patch("/update-info",isAuthenticated(),isValid(authValidation.updateInfoSchema),AuthService.updateInfo);
 router.post("/confirmTwoStep",isValid(authValidation.verifyAccountSchema),AuthService.confirmTwoStep);
 router.post("/verifyTwoStep",isValid(authValidation.verifyAccountSchema),AuthService.verifyTwoStep);
 router.patch("/enableTwoSteps",isAuthenticated(),AuthService.enableTwoSteps);
+router.post("/replace",isAuthenticated(),AuthService.replaceEmail);
 export default router;

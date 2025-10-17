@@ -28,6 +28,9 @@ export interface UpdateInfoDTO {
   dob?: Date;
 };
 export interface UpdateEmailDTO {
-  email: string;
   newEmail: string;
 };
+export interface ReplaceEmailDTO{
+  oldEmailCode:Number;
+  newEmailCode:Number;
+}
