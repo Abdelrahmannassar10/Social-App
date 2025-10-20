@@ -1,5 +1,5 @@
 import { IComment, IPost, IUser } from "../../../utils";
-import { CreateCommentDTO } from "../comment.dto";
+import { CreateCommentDTO, UpdateCommentDTO } from "../comment.dto";
 import { Comment } from "../entity";
 
 export class CommentFactoryService{
@@ -16,5 +16,10 @@ export class CommentFactoryService{
         newComment.parentId=comment?._id;
         newComment.reactions =[];
         return newComment ;
-    }
+    };
+    update(commentDTO:UpdateCommentDTO){
+        const newComment =new Comment();
+        newComment.content= commentDTO.content ;
+        return newComment ;
+    };
 }

@@ -24,7 +24,8 @@ export interface IUser {
     tempEmail:string;
     oldEmailOTP:Number;
     newEmailOTP:Number;
-    friends:ObjectId[]
+    friends:ObjectId[];
+    blockedUsers:ObjectId[];
 }
 export interface IReaction{
     reaction:REACTION,

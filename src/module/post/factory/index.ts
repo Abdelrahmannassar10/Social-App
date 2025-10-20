@@ -1,6 +1,6 @@
 import { IUser, REACTION } from "../../../utils";
 import { Post } from "../entity";
-import { CreatePostDTO } from "../post.dto";
+import { CreatePostDTO, UpdatePostDTO } from "../post.dto";
 
 export class PostFactoryService{
     create(createPostDTO:CreatePostDTO,user:IUser){
@@ -12,7 +12,10 @@ export class PostFactoryService{
         newPost.mentions=createPostDTO.mentions??[];
         return newPost ;
     }
-    update(){
-
+    update(updatePostDTO:UpdatePostDTO){
+        const newPost =new Post;
+        newPost.content =updatePostDTO.content;
+        newPost.mentions=updatePostDTO.mentions??[];
+        return newPost ;
     }
 }

@@ -12,7 +12,11 @@ class PostFactoryService {
         newPost.mentions = createPostDTO.mentions ?? [];
         return newPost;
     }
-    update() {
+    update(updatePostDTO) {
+        const newPost = new entity_1.Post;
+        newPost.content = updatePostDTO.content;
+        newPost.mentions = updatePostDTO.mentions ?? [];
+        return newPost;
     }
 }
 exports.PostFactoryService = PostFactoryService;

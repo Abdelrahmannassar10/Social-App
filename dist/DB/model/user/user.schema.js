@@ -64,6 +64,10 @@ exports.userSchema = new mongoose_1.Schema({
     friends: [{
             type: mongoose_1.Schema.Types.ObjectId,
             ref: "User"
+        }],
+    blockedUsers: [{
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: "User"
         }]
 }, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
 exports.userSchema.virtual("fullName").get(function () {

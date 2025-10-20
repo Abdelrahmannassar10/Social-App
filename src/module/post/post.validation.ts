@@ -7,3 +7,7 @@ export const createPostSchema = z.object({
 export const addReactionSchema =z.object({
     reaction:generalFields.reaction
 });
+export const updatePostSchema =z.object({
+    content:generalFields.content,
+    mentions:generalFields.mentions.optional()
+});

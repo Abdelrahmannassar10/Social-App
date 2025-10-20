@@ -1,10 +1,13 @@
 import { Router } from "express";
 import { isAuthenticated, isValid } from "../../middleware/";
 import commentService from "./comment.service";
-import { addReactionSchema, createCommentSchema } from "./comment.validation";
+import { addReactionSchema, createCommentSchema, updateCommentSchema } from "./comment.validation";
 const router =Router({mergeParams:true});
 router.post("{/:id}",isAuthenticated(),isValid(createCommentSchema),commentService.createComment);
 router.get("/:id",isAuthenticated(),commentService.getSpecific);
 router.delete("/:id",isAuthenticated(),commentService.deleteComment);
 router.patch("/:id",isAuthenticated(),isValid(addReactionSchema),commentService.addReaction);
+router.patch("/freezePost/:id",isAuthenticated(),commentService.freezeComment);
+router.patch("/unfreezePost/:id",isAuthenticated(),commentService.unfreezePost);
+router.put("/:id",isAuthenticated(),isValid(updateCommentSchema),commentService.updateComment);
 export default router ;

@@ -12,5 +12,12 @@ class CommentFactoryService {
         newComment.reactions = [];
         return newComment;
     }
+    ;
+    update(commentDTO) {
+        const newComment = new entity_1.Comment();
+        newComment.content = commentDTO.content;
+        return newComment;
+    }
+    ;
 }
 exports.CommentFactoryService = CommentFactoryService;

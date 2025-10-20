@@ -6,4 +6,8 @@ export interface CreateCommentDTO{
 };
 export interface AddReactionDTO{
     reaction:string;
-} 
+} ;
+export interface UpdateCommentDTO{
+    content:string;
+    attachment?:IAttachment;
+};

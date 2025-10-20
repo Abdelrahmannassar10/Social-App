@@ -10,11 +10,14 @@ class AbstractRepository {
         const doc = new this.model(item);
         return await doc.save();
     }
-    exist(filter, projection, options) {
+    async exist(filter, projection, options) {
         return this.model.findOne(filter, projection, options);
     }
-    getOne(filter, projection, options) {
+    async getOne(filter, projection, options) {
         return this.model.findOne(filter, projection, options);
+    }
+    async getMany(filter, projection, options) {
+        return this.model.find(filter, projection, options);
     }
     async update(filter, update, options) {
         return await this.model.updateOne(filter, update, options);

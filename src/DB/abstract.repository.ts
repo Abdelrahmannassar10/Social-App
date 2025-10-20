@@ -6,11 +6,14 @@ async create(item:Partial<T>){
     const doc =new this.model(item);
     return await doc.save() ;
 }
-exist(filter: RootFilterQuery<T>, projection?: ProjectionType<T>, options?: QueryOptions<T>){
+async exist(filter: RootFilterQuery<T>, projection?: ProjectionType<T>, options?: QueryOptions<T>){
     return this.model.findOne(filter ,projection ,options);
 }
-getOne(filter: RootFilterQuery<T>, projection?: ProjectionType<T>, options?: QueryOptions<T>){
+async getOne(filter: RootFilterQuery<T>, projection?: ProjectionType<T>, options?: QueryOptions<T>){
     return this.model.findOne(filter ,projection ,options);
+}
+async getMany(filter: RootFilterQuery<T>, projection?: ProjectionType<T>, options?: QueryOptions<T>){
+    return this.model.find(filter ,projection ,options);
 }
 async update(filter: RootFilterQuery<T>, update:UpdateQuery<T>, options?: MongooseUpdateQueryOptions<T>){
     return await this.model.updateOne(filter,update,options)

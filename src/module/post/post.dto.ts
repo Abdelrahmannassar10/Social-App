@@ -5,4 +5,8 @@ export interface CreatePostDTO{
 };
 export interface AddReactionDTO{
     reaction:string;
-} 
+} ;
+export interface UpdatePostDTO{
+    content:string;
+    mentions?:string[];
+};

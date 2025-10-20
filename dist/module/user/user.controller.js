@@ -11,4 +11,7 @@ router.get("/", (0, middleware_1.isAuthenticated)(), user_service_1.default.getP
 router.post("/add-friend", (0, middleware_1.isAuthenticated)(), user_service_1.default.addFriend);
 router.get("/show-request", (0, middleware_1.isAuthenticated)(), user_service_1.default.showRequest);
 router.post("/accept-request", (0, middleware_1.isAuthenticated)(), user_service_1.default.acceptRequest);
+router.post("/block/", (0, middleware_1.isAuthenticated)(), user_service_1.default.blockUser);
+router.post("/deleteFriendRequest/:id", (0, middleware_1.isAuthenticated)(), user_service_1.default.deleteFriendRequest);
+router.put("/unfriend/:id", (0, middleware_1.isAuthenticated)(), user_service_1.default.unfriend);
 exports.default = router;

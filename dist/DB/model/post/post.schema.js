@@ -12,19 +12,17 @@ exports.postSchema = new mongoose_1.Schema({
     },
     content: {
         type: String,
-        //   required: function(){
-        //     if(this.attachments?.length){
-        //         return false
-        //     }
-        //     return true
-        //   },
         trim: true,
     },
     reactions: [common_1.reactionSchema],
     mentions: [{
             type: String,
             trim: true
-        }]
+        }],
+    deletedAt: {
+        type: Date,
+        default: undefined
+    }
 }, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
 exports.postSchema.virtual("comment", {
     localField: "_id",

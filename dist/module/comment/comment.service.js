@@ -37,6 +37,8 @@ class CommentService {
         if (!commentExist) {
             throw new utils_1.NotFoundException("comment not founded");
         }
+        if (commentExist.deletedAt)
+            throw new utils_1.BadRequestException("comment has been deleted");
         res
             .status(200)
             .json({ message: "done", success: true, data: { commentExist } });
@@ -49,7 +51,7 @@ class CommentService {
         if (!commentExist) {
             throw new utils_1.NotFoundException("comment not founded");
         }
-        if ([
+        if (![
             commentExist.userId.toString(),
             commentExist.postId.userId.toString(),
         ].includes(req.user._id.toString())) {
@@ -66,6 +68,62 @@ class CommentService {
         const userId = req.user.id;
         await (0, react_provider_1.addReactionProvider)(this.commentRepository, id, userId, AddReactionDTO.reaction);
         res.sendStatus(204);
+    };
+    freezeComment = async (req, res) => {
+        const { id } = req.params;
+        const commentExist = await this.commentRepository.getOne({ _id: id }, {}, {
+            populate: [{ path: "postId", select: "userId" }],
+        });
+        if (!commentExist) {
+            throw new utils_1.NotFoundException("comment not founded");
+        }
+        if (![
+            commentExist.userId.toString(),
+            commentExist.postId.userId.toString(),
+        ].includes(req.user._id.toString())) {
+            throw new utils_1.UnAuthorizedException("you are not authorized to delete this comment");
+        }
+        await this.commentRepository.update({ _id: id }, { $set: { deletedAt: new Date() } });
+        res
+            .status(200)
+            .json({ message: "comment has been soft deleted", success: true });
+    };
+    unfreezePost = async (req, res) => {
+        const { id } = req.params;
+        const commentExist = await this.commentRepository.getOne({ _id: id }, {}, {
+            populate: [{ path: "postId", select: "userId" }],
+        });
+        if (!commentExist) {
+            throw new utils_1.NotFoundException("comment not founded");
+        }
+        if (![
+            commentExist.userId.toString(),
+            commentExist.postId.userId.toString(),
+        ].includes(req.user._id.toString())) {
+            throw new utils_1.UnAuthorizedException("you are not authorized to delete this comment");
+        }
+        await this.commentRepository.update({ _id: id }, { $set: { deletedAt: undefined } });
+        res
+            .status(200)
+            .json({ message: "comment has been retrieved", success: true });
+    };
+    updateComment = async (req, res) => {
+        const { id } = req.params;
+        const updateCommentDTO = req.body;
+        const commentExist = await this.commentRepository.getOne({ _id: id });
+        if (!commentExist) {
+            throw new utils_1.NotFoundException("comment not founded");
+        }
+        if (![
+            commentExist.userId.toString(),
+            commentExist.postId.userId.toString(),
+        ].includes(req.user._id.toString())) {
+            throw new utils_1.UnAuthorizedException("you are not authorized to delete this comment");
+        }
+        await this.commentRepository.update({ _id: commentExist._id }, { $set: { content: updateCommentDTO.content } });
+        res
+            .status(200)
+            .json({ message: "comment updated successfully", success: true });
     };
 }
 exports.CommentService = CommentService;
