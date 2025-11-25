@@ -19,7 +19,7 @@ export const userSchema = new Schema<IUser>(
     password: {
       type: String,
       required: function () {
-        if (this.userAgent == USER_AGENT.google) {
+        if (this.userAgent == USER_AGENT.google   ) {
           return false;
         } else {
           return true;

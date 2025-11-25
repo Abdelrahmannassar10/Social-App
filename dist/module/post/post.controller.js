@@ -17,7 +17,7 @@ router.post("/:id", (0, auth_middleware_1.isAuthenticated)(), (0, middleware_1.i
 router.delete("/:id", (0, auth_middleware_1.isAuthenticated)(), post_service_1.default.deletePost);
 router.put("/freezePost/:id", (0, auth_middleware_1.isAuthenticated)(), post_service_1.default.freezePost);
 router.put("/unfreezePost/:id", (0, auth_middleware_1.isAuthenticated)(), post_service_1.default.unfreezePost);
-router.put("/:id", (0, auth_middleware_1.isAuthenticated)(), post_service_1.default.updatePost);
+router.put("/:id", (0, auth_middleware_1.isAuthenticated)(), (0, middleware_1.isValid)(comment_validation_1.updateCommentSchema), post_service_1.default.updatePost);
 //public
 router.get("/:id", post_service_1.default.getSpecific);
 exports.default = router;

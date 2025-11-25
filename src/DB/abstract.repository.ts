@@ -10,13 +10,16 @@ async exist(filter: RootFilterQuery<T>, projection?: ProjectionType<T>, options?
     return this.model.findOne(filter ,projection ,options);
 }
 async getOne(filter: RootFilterQuery<T>, projection?: ProjectionType<T>, options?: QueryOptions<T>){
-    return this.model.findOne(filter ,projection ,options);
+    return this.model.findOne(filter ,projection ,options).lean();
 }
 async getMany(filter: RootFilterQuery<T>, projection?: ProjectionType<T>, options?: QueryOptions<T>){
-    return this.model.find(filter ,projection ,options);
+    return this.model.find(filter ,projection ,options).lean();
 }
-async update(filter: RootFilterQuery<T>, update:UpdateQuery<T>, options?: MongooseUpdateQueryOptions<T>){
-    return await this.model.updateOne(filter,update,options)
+async update(filter, update, options?: MongooseUpdateQueryOptions<T>) {
+  return this.model.findOneAndUpdate(filter, update, {
+    new: true,
+    ...options
+  });
 }
 async delete(filter:RootFilterQuery<T>){
     return await this.model.deleteOne(filter);
