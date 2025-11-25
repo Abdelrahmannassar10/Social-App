@@ -1,3 +1,11 @@
+
+## 🏷️ Badges
+![Node.js](https://img.shields.io/badge/Node.js-18+-green)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-brightgreen)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Status](https://img.shields.io/badge/Build-Passing-brightgreen)
+
 # Social Media Platform API
 
 A scalable, modular, and production-ready **Node.js + Express + TypeScript** social media backend. The system supports authentication, posts, reactions, mentions, friendships, blocking, and more — built with clean architecture principles and fully validated using **Zod**.
@@ -240,13 +248,6 @@ If you like this project, consider giving it a **⭐ on GitHub**.
 | PATCH | /post/:id | Update post |
 
 ---
-
-## 🏷️ Badges
-![Node.js](https://img.shields.io/badge/Node.js-18+-green)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
-![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-brightgreen)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Status](https://img.shields.io/badge/Build-Passing-brightgreen)
 
 ## 🖼️ Project Banner
 <p align="center">
