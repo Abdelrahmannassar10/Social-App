@@ -168,18 +168,6 @@ Usage example:
 ```ts
 router.post("/create", isValid(createPostSchema), postController.create);
 ```
-
----
-
-## ✨ What Makes This Project Great for Your CV?
-- Shows **professional clean architecture**
-- Demonstrates **advanced backend skills**
-- Uses **TypeScript**, which is highly in demand
-- Shows ability to handle **real social platform logic**
-- Includes **security**, **validation**, **emailing**, and **relationships**
-- Easy to deploy on **Render/Heroku/Vercel**
-- Recruiters love seeing structured and documented backend projects
-
 ---
 
 ## 📈 Future Improvements (Optional for Growth)
@@ -223,6 +211,68 @@ If you like this project, consider giving it a **⭐ on GitHub**.
 
 ---
 
+## 📘 Detailed API Documentation
+
+### 🔐 Authentication
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | /auth/signup | Register new user |
+| POST | /auth/login | Authenticate user |
+
+### 👤 User Module
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /user/profile | Get logged‑in user profile |
+| POST | /user/add-friend | Send a friend request |
+| POST | /user/accept-request | Accept a friend request |
+| DELETE | /user/unfriend/:id | Remove a friend |
+| POST | /user/block | Block a user |
+
+### 📝 Post Module
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | /post/create | Create a new post |
+| GET | /post/:id | Get post by ID |
+| POST | /post/react/:id | React to a post |
+| DELETE | /post/:id | Soft delete a post |
+| POST | /post/freeze/:id | Freeze a post |
+| POST | /post/unfreeze/:id | Unfreeze a post |
+| PATCH | /post/:id | Update post |
+
+---
+
+## 🏷️ Badges
+![Node.js](https://img.shields.io/badge/Node.js-18+-green)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-brightgreen)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Status](https://img.shields.io/badge/Build-Passing-brightgreen)
+
+## 🖼️ Project Banner
+<p align="center">
+  <img src="https://dummyimage.com/1200x300/000/fff&text=Social+Media+Platform+API" alt="Project Banner" />
+</p>
+
+## 🗺️ System Architecture Diagram
+```mermaid
+graph TD
+    A[Client] --> B[Express Server]
+    B --> C[Auth Module]
+    B --> D[User Module]
+    B --> E[Post Module]
+    B --> F[Friendship Module]
+    B --> G[Comment/Reaction Module]
+
+    C --> H[(MongoDB)]
+    D --> H
+    E --> H
+    F --> H
+    G --> H
+```
+
+
+---
+
 ## 🛠️ Deployment Instructions
 
 ### 1️⃣ Clone the Repository
@@ -257,121 +307,4 @@ npm run build
 npm start
 ```
 
----
-
-## 📘 Detailed API Documentation
-
-### 🔐 Authentication
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | /auth/signup | Register new user |
-| POST | /auth/login | Authenticate user |
-
-### 👤 User Module
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /user/profile | Get logged‑in user profile |
-| POST | /user/add-friend | Send a friend request |
-| POST | /user/accept-request | Accept a friend request |
-| DELETE | /user/unfriend/:id | Remove a friend |
-| POST | /user/block | Block a user |
-
-### 📝 Post Module
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | /post/create | Create a new post |
-| GET | /post/:id | Get post by ID |
-| POST | /post/react/:id | React to a post |
-| DELETE | /post/:id | Soft delete a post |
-| POST | /post/freeze/:id | Freeze a post |
-| POST | /post/unfreeze/:id | Unfreeze a post |
-| PATCH | /post/:id | Update post |
-
----
-
-## 🧪 Testing
-Run backend tests (if implemented):
-```bash
-npm run test
-```
-
----
-
-## 📦 Deployment Options
-
-### 🔹 Using Render
-- Create new Web Service
-- Connect GitHub repo
-- Add environment variables in dashboard
-- Set build command: `npm install && npm run build`
-- Set start command: `npm start`
-
-### 🔹 Using Docker
-```
-FROM node:18
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
-CMD ["npm", "start"]
-```
-
-### 🔹 Using Vercel (Serverless)
-- Convert routes to Vercel functions
-- Adjust Express config
-
----
-
-## 🧭 Suggested Repository Structure for GitHub
-```
-📁 src
-📁 docs
-📁 diagrams
-📁 tests
-📄 README.md
-📄 tsconfig.json
-📄 package.json
-```
-
----
-
-## 🏆 Final Notes
-This README is now fully optimized for **GitHub**, **recruiters**, and **CV showcasing**.
-If you want, I can also:
-- Generate a **system diagram image**
-- Add **badges** (build status, license, node version)
-- Create a **project banner**
-- Write a **GitHub description**
-- Create a **full documentation website** (Docusaurus)
-
-
-## 🏷️ Badges
-![Node.js](https://img.shields.io/badge/Node.js-18+-green)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
-![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-brightgreen)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Status](https://img.shields.io/badge/Build-Passing-brightgreen)
-
-## 🖼️ Project Banner
-<p align="center">
-  <img src="https://dummyimage.com/1200x300/000/fff&text=Social+Media+Platform+API" alt="Project Banner" />
-</p>
-
-## 🗺️ System Architecture Diagram
-```mermaid
-graph TD
-    A[Client] --> B[Express Server]
-    B --> C[Auth Module]
-    B --> D[User Module]
-    B --> E[Post Module]
-    B --> F[Friendship Module]
-    B --> G[Comment/Reaction Module]
-
-    C --> H[(MongoDB)]
-    D --> H
-    E --> H
-    F --> H
-    G --> H
-```
 
